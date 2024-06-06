@@ -38,4 +38,21 @@ noexcept
     return( y < x ? x : y );
 }
 
+/**
+ * Compile-time maximum function from parametr pack
+ *
+ * @param args... a real-valued input.
+ * @return Computes the maximum between all \c args... in the pack, where \c args... have the same type (e.g., \c int, \c double, etc.)
+ */
+
+template<typename T, typename... Args>
+constexpr
+common_t<T, Args...>
+max(const T x, const Args... args)
+noexcept
+{
+    const auto y = max(args...);
+    return( y < x ? x : y );
+}
+
 #endif

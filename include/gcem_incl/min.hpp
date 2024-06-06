@@ -38,4 +38,21 @@ noexcept
     return( y > x ? x : y );
 }
 
+/**
+ * Compile-time minimum function from parametr pack
+ *
+ * @param args... a real-valued input.
+ * @return Computes the minimum between all \c args... in the pack, where \c args... have the same type (e.g., \c int, \c double, etc.)
+ */
+
+template<typename T, typename... Args>
+constexpr
+common_t<T, Args...>
+min(const T x, const Args... args)
+noexcept
+{
+    const auto y = min(args...);
+    return( x < y ? x : y );
+}
+
 #endif
