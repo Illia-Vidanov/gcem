@@ -25,10 +25,14 @@
 #ifndef _gcem_is_nan_HPP
 #define _gcem_is_nan_HPP
 
-namespace internal
-{
-
 // future: consider using __builtin_isnan(__x)
+
+/**
+ * Compile-time check if a float is NaN-valued
+ *
+ * @param x floating point value.
+ * @return true if \c x is NaN-valued, false otherwise.
+ */
 
 template<typename T>
 constexpr
@@ -39,42 +43,68 @@ noexcept
     return x != x;
 }
 
-template<typename T1, typename T2>
+/**
+ * Compile-time check if a float is NaN-valued
+ *
+ * @param x floating point value.
+ * @return true if \c x is NaN-valued, false otherwise.
+ */
+
+template<typename T, typename... Args>
 constexpr
 bool
-any_nan(const T1 x, const T2 y)
+any_nan(const T x)
 noexcept
 {
-    return( is_nan(x) || is_nan(y) );
+    return is_nan(x);
 }
 
-template<typename T1, typename T2>
+/**
+ * Compile-time check if any float in a sequence is NaN-valued
+ *
+ * @param args... floating point values.
+ * @return true if any float in a sequence is NaN-valued, false otherwise.
+ */
+
+template<typename T, typename... Args>
 constexpr
 bool
-all_nan(const T1 x, const T2 y)
+any_nan(const T x, const Args... args)
 noexcept
 {
-    return( is_nan(x) && is_nan(y) );
+    return is_nan(x) || any_nan(args...);
 }
 
-template<typename T1, typename T2, typename T3>
+/**
+ * Compile-time check if a float is NaN-valued
+ *
+ * @param x floating point value.
+ * @return true if \c x is NaN-valued, false otherwise.
+ */
+
+template<typename T, typename... Args>
 constexpr
 bool
-any_nan(const T1 x, const T2 y, const T3 z)
+all_nan(const T x)
 noexcept
 {
-    return( is_nan(x) || is_nan(y) || is_nan(z) );
+    returnis_nan(x);
 }
 
-template<typename T1, typename T2, typename T3>
+/**
+ * Compile-time check if all floats in a sequence are NaN-valued
+ *
+ * @param args... floating point values.
+ * @return true if all floats in a sequence are NaN-valued, false otherwise.
+ */
+
+template<typename T, typename... Args>
 constexpr
 bool
-all_nan(const T1 x, const T2 y, const T3 z)
+all_nan(const T x, const Args... args)
 noexcept
 {
-    return( is_nan(x) && is_nan(y) && is_nan(z) );
-}
-
+    return is_nan(x) && all_nan(args...);
 }
 
 #endif

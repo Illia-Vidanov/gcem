@@ -25,8 +25,12 @@
 #ifndef _gcem_is_finite_HPP
 #define _gcem_is_finite_HPP
 
-namespace internal
-{
+/**
+ * Compile-time check if a float is not NaN-valued or +/-Inf
+ *
+ * @param x floating point value.
+ * @return true if \c x is not NaN-valued or +/-Inf, false otherwise.
+ */
 
 template<typename T>
 constexpr
@@ -37,42 +41,68 @@ noexcept
     return (!is_nan(x)) && (!is_inf(x));
 }
 
-template<typename T1, typename T2>
+/**
+ * Compile-time check if a float is not NaN-valued or +/-Inf
+ *
+ * @param x floating point value.
+ * @return true if \c x is not NaN-valued or +/-Inf, false otherwise.
+ */
+
+template<typename T>
 constexpr
 bool
-any_finite(const T1 x, const T2 y)
+any_finite(const T x)
 noexcept
 {
-    return( is_finite(x) || is_finite(y) );
+    return is_finite(x);
 }
 
-template<typename T1, typename T2>
+/**
+ * Compile-time check if any float in a sequence is not NaN-valued or +/-Inf
+ *
+ * @param args... floating point values.
+ * @return true if any float in a sequence is not NaN-valued or +/-Inf, false otherwise.
+ */
+
+template<typename T, typename... Args>
 constexpr
 bool
-all_finite(const T1 x, const T2 y)
+any_finite(const T x, const Args... args)
 noexcept
 {
-    return( is_finite(x) && is_finite(y) );
+    return is_finite(x) || any_finite(args...);
 }
 
-template<typename T1, typename T2, typename T3>
+/**
+ * Compile-time check if a float is not NaN-valued or +/-Inf
+ *
+ * @param x floating point value.
+ * @return true if \c x is not NaN-valued or +/-Inf, false otherwise.
+ */
+
+template<typename T>
 constexpr
 bool
-any_finite(const T1 x, const T2 y, const T3 z)
+all_finite(const T x)
 noexcept
 {
-    return( is_finite(x) || is_finite(y) || is_finite(z) );
+    return is_finite(x);
 }
 
-template<typename T1, typename T2, typename T3>
+/**
+ * Compile-time check if all floats in a sequence are not NaN-valued or +/-Inf
+ *
+ * @param args... floating point values.
+ * @return true if all floats in a sequence are not NaN-valued or +/-Inf, false otherwise.
+ */
+
+template<typename T, typename... Args>
 constexpr
 bool
-all_finite(const T1 x, const T2 y, const T3 z)
+all_finite(const T x, const Args... args)
 noexcept
 {
-    return( is_finite(x) && is_finite(y) && is_finite(z) );
-}
-
+    return is_finite(x) && all_finite(args...);
 }
 
 #endif

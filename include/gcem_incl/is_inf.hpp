@@ -25,8 +25,12 @@
 #ifndef _gcem_is_inf_HPP
 #define _gcem_is_inf_HPP
 
-namespace internal
-{
+/**
+ * Compile-time check if a float is -Inf
+ *
+ * @param x floating point value.
+ * @return true if \c x is -Inf, false otherwise.
+ */
 
 template<typename T>
 constexpr
@@ -37,43 +41,78 @@ noexcept
     return x == - GCLIM<T>::infinity();
 }
 
-template<typename T1, typename T2>
+/**
+ * Compile-time check if a float is -Inf
+ *
+ * @param x floating point value.
+ * @return true if \c x is -Inf, false otherwise.
+ */
+
+template<typename T>
 constexpr
 bool
-any_neginf(const T1 x, const T2 y)
+any_neginf(const T x)
 noexcept
 {
-    return( is_neginf(x) || is_neginf(y) );
+    return is_neginf(x);
 }
 
-template<typename T1, typename T2>
+/**
+ * Compile-time check if any float in a sequence is -Inf
+ *
+ * @param args... floating point values.
+ * @return true if any float in a sequence is -Inf, false otherwise.
+ */
+
+template<typename T, typename... Args>
 constexpr
 bool
-all_neginf(const T1 x, const T2 y)
+any_neginf(const T x, const Args... args)
 noexcept
 {
-    return( is_neginf(x) && is_neginf(y) );
+    return is_neginf(x) || is_neginf(args...);
 }
 
-template<typename T1, typename T2, typename T3>
+/**
+ * Compile-time check if a float is -Inf
+ *
+ * @param x floating point value.
+ * @return true if \c x is -Inf, false otherwise.
+ */
+
+template<typename T>
 constexpr
 bool
-any_neginf(const T1 x, const T2 y, const T3 z)
+all_neginf(const T x)
 noexcept
 {
-    return( is_neginf(x) || is_neginf(y) || is_neginf(z) );
+    return is_neginf(x);
 }
 
-template<typename T1, typename T2, typename T3>
+/**
+ * Compile-time check if all floats in a sequence are -Inf
+ *
+ * @param args... floating point values.
+ * @return true if all floats in a sequence are -Inf, false otherwise.
+ */
+
+template<typename T, typename... Args>
 constexpr
 bool
-all_neginf(const T1 x, const T2 y, const T3 z)
+all_neginf(const T x, const Args... args)
 noexcept
 {
-    return( is_neginf(x) && is_neginf(y) && is_neginf(z) );
+    return is_neginf(x) && all_neginf(args...);
 }
 
 //
+
+/**
+ * Compile-time check if a float is +Inf
+ *
+ * @param x floating point value.
+ * @return true if \c x is +Inf, false otherwise.
+ */
 
 template<typename T>
 constexpr
@@ -84,43 +123,79 @@ noexcept
     return x == GCLIM<T>::infinity();
 }
 
-template<typename T1, typename T2>
+/**
+ * Compile-time check if a float is +Inf
+ *
+ * @param x floating point value.
+ * @return true if \c x is +Inf, false otherwise.
+ */
+
+template<typename T>
 constexpr
 bool
-any_posinf(const T1 x, const T2 y)
+any_posinf(const T x)
 noexcept
 {
-    return( is_posinf(x) || is_posinf(y) );
+    return is_posinf(x);
 }
 
-template<typename T1, typename T2>
+/**
+ * Compile-time check if any float in a sequence is +Inf
+ *
+ * @param args... floating point values.
+ * @return true if any float in a sequence is +Inf, false otherwise.
+ */
+
+template<typename T, typename... Args>
 constexpr
 bool
-all_posinf(const T1 x, const T2 y)
+any_posinf(const T x, const Args... args)
 noexcept
 {
-    return( is_posinf(x) && is_posinf(y) );
+    return is_posinf(x) || any_posinf(args...);
 }
 
-template<typename T1, typename T2, typename T3>
+/**
+ * Compile-time check if a float is +Inf
+ *
+ * @param x floating point value.
+ * @return true if \c x is +Inf, false otherwise.
+ */
+
+template<typename T>
 constexpr
 bool
-any_posinf(const T1 x, const T2 y, const T3 z)
+all_posinf(const T x)
 noexcept
 {
-    return( is_posinf(x) || is_posinf(y) || is_posinf(z) );
+    return is_posinf(x);
 }
 
-template<typename T1, typename T2, typename T3>
+/**
+ * Compile-time check if all floats in a sequence are +Inf
+ *
+ * @param args... floating point values.
+ * @return true if all floats in a sequence are +Inf, false otherwise.
+ */
+
+
+template<typename T, typename... Args>
 constexpr
 bool
-all_posinf(const T1 x, const T2 y, const T3 z)
+all_posinf(const T x, const Args... args)
 noexcept
 {
-    return( is_posinf(x) && is_posinf(y) && is_posinf(z) );
+    return is_posinf(x) && all_posinf(args...);
 }
 
 //
+
+/**
+ * Compile-time check if a float is +/-Inf
+ *
+ * @param x floating point value.
+ * @return true if \c x is +/-Inf, false otherwise.
+ */
 
 template<typename T>
 constexpr
@@ -128,45 +203,71 @@ bool
 is_inf(const T x)
 noexcept
 {
-    return( is_neginf(x) || is_posinf(x) );
+    return is_neginf(x) || is_posinf(x);
 }
 
-template<typename T1, typename T2>
+/**
+ * Compile-time check if a float is +/-Inf
+ *
+ * @param x floating point value.
+ * @return true if \c x is +/-Inf, false otherwise.
+ */
+
+template<typename T>
 constexpr
 bool
-any_inf(const T1 x, const T2 y)
+any_inf(const T x)
 noexcept
 {
-    return( is_inf(x) || is_inf(y) );
+    return is_inf(x);
 }
 
-template<typename T1, typename T2>
+/**
+ * Compile-time check if any float in a sequence is +/-Inf
+ *
+ * @param args... floating point values.
+ * @return true if any float in a sequence is +/-Inf, false otherwise.
+ */
+
+template<typename T, typename... Args>
 constexpr
 bool
-all_inf(const T1 x, const T2 y)
+any_inf(const T x, const Args... args)
 noexcept
 {
-    return( is_inf(x) && is_inf(y) );
+    return is_inf(x) || any_inf(args...);
 }
 
-template<typename T1, typename T2, typename T3>
+/**
+ * Compile-time check if a float is +/-Inf
+ *
+ * @param x floating point value.
+ * @return true if \c x is +/-Inf, false otherwise.
+ */
+
+template<typename T>
 constexpr
 bool
-any_inf(const T1 x, const T2 y, const T3 z)
+all_inf(const T x)
 noexcept
 {
-    return( is_inf(x) || is_inf(y) || is_inf(z) );
+    return is_inf(x);
 }
 
-template<typename T1, typename T2, typename T3>
+/**
+ * Compile-time check if all floats in a sequence are +/-Inf
+ *
+ * @param args... floating point values.
+ * @return true if all floats in a sequence are +/-Inf, false otherwise.
+ */
+
+template<typename T, typename... Args>
 constexpr
 bool
-all_inf(const T1 x, const T2 y, const T3 z)
+all_inf(const T x, const Args... args)
 noexcept
 {
-    return( is_inf(x) && is_inf(y) && is_inf(z) );
-}
-
+    return is_inf(x) && all_inf(args...);
 }
 
 #endif
